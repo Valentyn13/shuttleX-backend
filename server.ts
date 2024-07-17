@@ -1,4 +1,3 @@
-import { UserWithoutPassword } from './types/user.type';
 import express from 'express'
 import { createServer } from 'http'
 import {Server} from 'socket.io'
@@ -81,7 +80,6 @@ io.on('connection', (socket) => {
     socket.on('LEFT_CHAT',async (data:{chatId:string, userId: string}) => {
       const chat = await Chat.findById(data.chatId)
       const members = chat?.members.filter((member) => member.id != data.userId)
-      console.log(members)
       await Chat.updateOne({_id: data.chatId}, {members})
       io.emit('DECREASE_MEMBER', {chatId: data.chatId, userId: data.userId})
 });
